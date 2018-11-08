@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<div class="list">
+<body ng-app="myApp" ng-controller="todoCtrl">
+<h2>To-Do List</h2>
+<form name='form1' onsubmit="required()" ng-submit="todoAdd()" >
+    <input type="text" name ='text1' ng-model="todoInput" size="50" placeholder="Add New To Do Item">
+    <input type="submit" value="Add New">
+</form>
+
+<br>
+
+<div ng-repeat="x in todoList">
+    <input type="checkbox"  ng-model="x.done"> <span ng-bind="x.todoText"></span>
+</div>
+
+<!-- <p><button ng-click="remove()" type="button" class="btn btn-warning">Remove Completed</button></p> -->
+<p><button ng-click="remove()">Remove Completed</button></p>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('todoCtrl', function($scope) {
+    $scope.todoList = [{todoText:'Below are list - ', done:false}];
+
+    $scope.todoAdd = function() {
+        $scope.todoList.push({todoText:$scope.todoInput, done:false});
+        $scope.todoInput = ""; //after adding the first one the text box will become empty
+    };
+    $scope.remove = function() {
+        var oldList = $scope.todoList;
+        $scope.todoList = [];
+        angular.forEach(oldList, function(y) {
+            if (!y.done) $scope.todoList.push(y);
+        });
+    };
+});
+</script>
+<script>
+function required()
+{
+var empt = document.form1.text1.value;
+if (empt === "")
+{
+alert("Please input a Value");
+return false;
+}
+else
+{
+// alert('Your item is listed, try another');
+return true;
+}
+}
+</script>
+</body>
+</div>
+</html>
